@@ -5,7 +5,7 @@ resources:
       name: "[${bundle.target}]_scd2_pipeline"
       catalog: ${var.catalog}
       schema: ${var.schema}
-      root_path: scd2
+      root_path: .
       development: true
       continuous: false
       edition: ADVANCED
