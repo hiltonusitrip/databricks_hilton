@@ -6,7 +6,7 @@ resources:
       catalog: ${var.catalog}
       schema: ${var.schema}
       root_path: .
-      development: true
+      development: ${var.pipeline_development}
       continuous: false
       edition: ADVANCED
       photon: true
