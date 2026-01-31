@@ -1,0 +1,19 @@
+# SCD2 DLT Pipeline resource
+resources:
+  pipelines:
+    scd2_pipeline:
+      name: "[${bundle.target}]_scd2_pipeline"
+      catalog: ${var.catalog}
+      schema: ${var.schema}
+      root_path: .
+      development: ${var.pipeline_development}
+      continuous: false
+      edition: ADVANCED
+      photon: true
+      serverless: true
+      libraries:
+        - glob:
+            include: transformations/**
+      filters:
+        include:
+          - transformations
