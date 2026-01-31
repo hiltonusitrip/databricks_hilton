@@ -13,6 +13,9 @@ variables:
     description: Unity Catalog catalog for pipeline tables
   schema:
     description: Schema for SCD2 tables
+  pipeline_development:
+    description: Pipeline development mode (true for dev, false for prod)
+    default: false
 
 targets:
   # Development - hilton_hotmail workspace
@@ -24,12 +27,15 @@ targets:
     variables:
       catalog: hilton_hotmail
       schema: default
+      pipeline_development: true
 
   # Production - prod_2 workspace
   prod:
     mode: production
     workspace:
       host: https://dbc-c382fa4e-0ede.cloud.databricks.com
+      root_path: /Workspace/Users/hma68@hotmail.com/.bundle/${bundle.name}/${bundle.target}
     variables:
       catalog: prod_2
       schema: default
+      pipeline_development: false
