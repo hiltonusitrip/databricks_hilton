@@ -1,0 +1,39 @@
+name: Deploy SCD2 to Production
+
+on:
+  push:
+    branches:
+      - main
+      - data-001
+  workflow_dispatch:
+
+concurrency: prod_deploy
+
+jobs:
+  validate:
+    name: Validate bundle
+    runs-on: ubuntu-latest
+    environment: prod  # Use your GitHub Environment with DATABRICKS_TOKEN & DATABRICKS_HOST
+    steps:
+      - uses: actions/checkout@v4
+      - uses: databricks/setup-cli@main
+      - name: Validate bundle
+        run: databricks bundle validate -t prod
+        env:
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+
+  deploy-prod:
+    name: Deploy to prod_2
+    runs-on: ubuntu-latest
+    needs: validate
+    environment: prod
+    steps:
+      - uses: actions/checkout@v4
+      - uses: databricks/setup-cli@main
+      - name: Deploy bundle to prod
+        run: databricks bundle deploy -t prod
+        env:
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+          DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+          DATABRICKS_BUNDLE_ENV: prod

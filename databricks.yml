@@ -1,0 +1,35 @@
+# Databricks Asset Bundle for SCD2 Pipeline
+# Deploy from hilton_hotmail (dev) to prod_2 (prod) via GitHub
+
+bundle:
+  name: scd2-pipeline
+
+include:
+  - scd2/scd2-job.yml
+  - scd2/scd2-pipeline.yml
+
+variables:
+  catalog:
+    description: Unity Catalog catalog for pipeline tables
+  schema:
+    description: Schema for SCD2 tables
+
+targets:
+  # Development - hilton_hotmail workspace
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-3a9c6033-1f4e.cloud.databricks.com
+    variables:
+      catalog: hilton_hotmail
+      schema: default
+
+  # Production - prod_2 workspace
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-c382fa4e-0ede.cloud.databricks.com
+    variables:
+      catalog: prod_2
+      schema: default

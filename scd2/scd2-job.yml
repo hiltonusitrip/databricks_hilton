@@ -1,0 +1,13 @@
+# Job to refresh the SCD2 pipeline
+resources:
+  jobs:
+    scd2_refresh:
+      name: "[${bundle.target}]_scd2_refresh"
+      schedule:
+        quartz_cron_expression: "0 0 6 * * ?"
+        timezone_id: "UTC"
+        pause_status: PAUSED
+      tasks:
+        - task_key: refresh_pipeline
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.scd2_pipeline.id}
