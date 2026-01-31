@@ -13,7 +13,7 @@ resources:
       serverless: true
       libraries:
         - glob:
-            include: scd2/transformations/**
+            include: transformations/**
       filters:
         include:
           - transformations
