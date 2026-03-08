@@ -1,10 +1,20 @@
-dbutils.widgets.text("catalog", "dev")
 dbutils.widgets.text("latitude", "37.77")
 dbutils.widgets.text("longitude", "-122.41")
 
-catalog = dbutils.widgets.get("catalog")
 latitude = dbutils.widgets.get("latitude")
 longitude = dbutils.widgets.get("longitude")
+
+import argparse
+import requests
+from pyspark.sql import functions as F
+from delta.tables import DeltaTable
+from pyspark.sql.window import Window
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--catalog", required=True)
+args = parser.parse_args()
+
+catalog = args.catalog
 
 bronze_table = f"{catalog}.bronze.weather_current"
 silver_table = f"{catalog}.silver.weather_current"
