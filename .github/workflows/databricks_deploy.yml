@@ -99,25 +99,32 @@ jobs:
       - name: Install Databricks CLI
         uses: databricks/setup-cli@main
 
+      - name: Set Databricks credentials
+        run: |
+          if [ "${{ needs.discover-bundles.outputs.target }}" = "dev" ]; then
+            echo "DATABRICKS_HOST=${{ secrets.DATABRICKS_HOST_DEV }}" >> "$GITHUB_ENV"
+            echo "DATABRICKS_TOKEN=${{ secrets.DATABRICKS_TOKEN_DEV }}" >> "$GITHUB_ENV"
+          elif [ "${{ needs.discover-bundles.outputs.target }}" = "test" ]; then
+            echo "DATABRICKS_HOST=${{ secrets.DATABRICKS_HOST_TEST }}" >> "$GITHUB_ENV"
+            echo "DATABRICKS_TOKEN=${{ secrets.DATABRICKS_TOKEN_TEST }}" >> "$GITHUB_ENV"
+          elif [ "${{ needs.discover-bundles.outputs.target }}" = "prod" ]; then
+            echo "DATABRICKS_HOST=${{ secrets.DATABRICKS_HOST_PROD }}" >> "$GITHUB_ENV"
+            echo "DATABRICKS_TOKEN=${{ secrets.DATABRICKS_TOKEN_PROD }}" >> "$GITHUB_ENV"
+          else
+            echo "Unknown target: ${{ needs.discover-bundles.outputs.target }}"
+            exit 1
+          fi
+
       - name: Validate bundle
         working-directory: ${{ matrix.bundle_dir }}
         run: databricks bundle validate -t ${{ needs.discover-bundles.outputs.target }}
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
 
       - name: Deploy bundle
         working-directory: ${{ matrix.bundle_dir }}
         run: databricks bundle deploy -t ${{ needs.discover-bundles.outputs.target }}
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
 
       - name: Run bundle job
         working-directory: ${{ matrix.bundle_dir }}
         run: |
           JOB_KEY=$(yq '.resources.jobs | keys | .[0]' resources/jobs.yml)
           databricks bundle run -t ${{ needs.discover-bundles.outputs.target }} "$JOB_KEY"
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
