@@ -3,6 +3,7 @@ name: Databricks Bundle CI/CD
 on:
   push:
     branches:
+      - dev
       - test
       - main
 
