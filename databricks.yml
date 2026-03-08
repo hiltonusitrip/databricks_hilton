@@ -7,7 +7,7 @@ include:
 variables:
   catalog:
     description: target catalog
-    default: dev
+    default: dev_catalog
   schema:
     description: target schema
     default: bronze
@@ -19,24 +19,24 @@ targets:
   dev:
     default: true
     workspace:
-      host: https://dbc-3a9c6033-1f4e.cloud.databricks.com/
+      host: https://dbc-6a21f5a8-b4b0.cloud.databricks.com/
     variables:
-      catalog: dev
+      catalog: dev_catalog
       schema: bronze
       job_pause_status: PAUSED
 
   test:
     workspace:
-      host: https://dbc-3a9c6033-1f4e.cloud.databricks.com/
+      host: https://dbc-adadf338-3987.cloud.databricks.com/
     variables:
-      catalog: test
+      catalog: test_catalog
       schema: bronze
       job_pause_status: PAUSED
 
   prod:
     workspace:
-      host: https://dbc-3a9c6033-1f4e.cloud.databricks.com/
+      host: https://dbc-c382fa4e-0ede.cloud.cloud.databricks.com/
     variables:
-      catalog: prod_2
+      catalog: prod_catalog
       schema: bronze
       job_pause_status: UNPAUSED
