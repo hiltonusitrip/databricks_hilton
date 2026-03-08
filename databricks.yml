@@ -7,7 +7,7 @@ include:
 variables:
   catalog:
     description: target catalog
-    default: dev
+    default: dev_catalog
   schema:
     description: target schema
     default: bronze
