@@ -37,6 +37,6 @@ targets:
     workspace:
       host: https://dbc-3a9c6033-1f4e.cloud.databricks.com/
     variables:
-      catalog: prd
+      catalog: prod_2
       schema: bronze
       job_pause_status: UNPAUSED
