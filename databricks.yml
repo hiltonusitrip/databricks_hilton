@@ -35,7 +35,7 @@ targets:
 
   prod:
     workspace:
-      host: https://dbc-c382fa4e-0ede.cloud.cloud.databricks.com/
+      host: https://dbc-c382fa4e-0ede.cloud.databricks.com/
     variables:
       catalog: prod_catalog
       schema: bronze
