@@ -115,6 +115,12 @@ jobs:
             exit 1
           fi
 
+      - name: Debug env
+        run: |
+          echo "TARGET=${{ needs.discover-bundles.outputs.target }}"
+          echo "HOST=$DATABRICKS_HOST"
+          echo "TOKEN_SET=${DATABRICKS_TOKEN:+yes}"
+
       - name: Validate bundle
         working-directory: ${{ matrix.bundle_dir }}
         run: databricks bundle validate -t ${{ needs.discover-bundles.outputs.target }}
